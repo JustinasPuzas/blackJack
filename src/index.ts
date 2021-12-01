@@ -1,3 +1,3 @@
-import BlackJack from "./game";
+import BlackJack from "./BlackJack/BlackJack";
 
-const game = new BlackJack()
+const game = new BlackJack();

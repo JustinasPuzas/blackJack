@@ -1,7 +1,9 @@
 const cC = require("console-control-strings");
 import readLine from "readline";
 import Deck from './Deck'
-import {Hand, Dealer, Player} from './Hand';
+import Hand from './Hand/Hand';
+import Player from './Hand/Player';
+import Dealer from './Hand/Dealer';
 
 class Table {
   private _shoe!: Deck;
@@ -38,6 +40,10 @@ class Table {
         // check for winner
         // user input
         break;
+      case "e":
+        //end game
+        //display score
+        //start new game
       default:
         await this.userAction("");
         this.gameLoop();
@@ -217,29 +223,4 @@ class Table {
   // insurance if dealer gets ace
 }
 
-class BlackJack {
-  constructor() {
-    console.clear();
-    this.menu('to Start the game press "Enter"').then(() => {
-      const table = new Table(6);
-    });
-  }
-
-  private async menu(query: string) {
-    const rl = readLine.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-
-    const response: string = await new Promise((resolve) =>
-      rl.question(query, (ans) => {
-        rl.close();
-        return resolve(ans);
-      })
-    );
-    console.clear();
-    return response.toLowerCase()[0];
-  }
-}
-
-export default BlackJack;
+export default Table;

@@ -210,26 +210,4 @@ class Table {
         });
     }
 }
-class BlackJack {
-    constructor() {
-        console.clear();
-        this.menu('to Start the game press "Enter"').then(() => {
-            const table = new Table(6);
-        });
-    }
-    menu(query) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const rl = readline_1.default.createInterface({
-                input: process.stdin,
-                output: process.stdout,
-            });
-            const response = yield new Promise((resolve) => rl.question(query, (ans) => {
-                rl.close();
-                return resolve(ans);
-            }));
-            console.clear();
-            return response.toLowerCase()[0];
-        });
-    }
-}
-exports.default = BlackJack;
+exports.default = Table;
