@@ -55,7 +55,7 @@ class Table {
     this._playerHand.checkValueOfCards();
     this._playerHand.displayAllCards();
     // user input
-    await this.userAction(`(h) Hit or (s) Stand?`);
+    await this.userAction(`(h) Hit or (s) Stand? `);
     this.gameLoop();
   }
 
@@ -84,7 +84,7 @@ class Table {
     // check for winner
     if (this._playerHand.checkValueOfCards() == 21) {
       this.checkWinConditions();
-      await this.userAction("Play another round? ... (d) Deal (e) End Game ");
+      await this.userAction("Play another round? ... (d) Deal ");
       this.gameLoop();
       return;
     }
@@ -157,7 +157,7 @@ class Table {
     this._dealerHand.displayAllCards();
     this._playerHand.displayAllCards();
 
-    console.log(winner.name + " Won !!!");
+    console.log(winner.name + " Won !!!         ");
     console.log(this._score);
     this._userInput = "e";
   }
@@ -166,7 +166,7 @@ class Table {
     console.clear();
     this._dealerHand.displayAllCards();
     this._playerHand.displayAllCards();
-    console.log("PUSH ...");
+    console.log("PUSH ... ");
     console.log(this._score);
     this._userInput = "e";
   }
