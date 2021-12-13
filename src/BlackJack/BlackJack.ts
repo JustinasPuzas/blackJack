@@ -11,7 +11,7 @@ class BlackJack {
     });
   }
 
-  private async menu(query: string) {
+  private async menu(query: string):Promise<number> {
     const rl = readLine.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -24,7 +24,7 @@ class BlackJack {
       })
     );
     console.clear();
-    if(!Number.isInteger(response)) this.menu(query)
+    if(!Number.parseInt(response)) return this.menu(query)
     return Number.parseInt(response.toLowerCase());
   }
 }

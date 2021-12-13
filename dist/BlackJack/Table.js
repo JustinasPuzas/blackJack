@@ -30,30 +30,15 @@ class Table {
         return __awaiter(this, void 0, void 0, function* () {
             switch (this._userInput) {
                 case "h":
-                    // draw player
-                    // check for winner
-                    // user input
                     this.hit();
                     break;
                 case "s":
-                    // reveal dealer
-                    // draw dealer cards if needed
-                    // check for winner
-                    // user input to deal or exit
                     this.stand();
                     break;
                 case "d":
                     this.deal();
-                    // reset hands
-                    // deal cards
-                    // reveal dealer
-                    // check for winner
-                    // user input
                     break;
                 case "e":
-                //end game
-                //display score
-                //start new game
                 default:
                     yield this.userAction("");
                     this.gameLoop();
@@ -67,20 +52,20 @@ class Table {
             this._shoe.takeCardsTo(1, this._playerHand);
             if (this._playerHand.checkValueOfCards() > 21) {
                 this.displayWinner(this._dealerHand);
-                yield this.userAction("Play another round? ... Deal ");
+                yield this.userAction("Play another round? ... (d) Deal (e) End Game ");
                 this.gameLoop();
                 return;
             }
             else if (this._playerHand.checkValueOfCards() == 21) {
-                this.playerEqual21();
-                yield this.userAction("Play another round? ... Deal ");
+                this.checkWinConditions();
+                yield this.userAction("Play another round? ... (d) Deal (e) End Game ");
                 this.gameLoop();
                 return;
             }
             this._playerHand.checkValueOfCards();
             this._playerHand.displayAllCards();
             // user input
-            yield this.userAction(`Hit or Stand?`);
+            yield this.userAction(`(h) Hit or (s) Stand?`);
             this.gameLoop();
         });
     }
@@ -88,13 +73,8 @@ class Table {
         return __awaiter(this, void 0, void 0, function* () {
             // reveal dealer card
             // draw dealer cards if needed
-            if (this._playerHand.checkValueOfCards() == 21) {
-                this.playerEqual21();
-            }
-            else {
-                this.playerLessThan21();
-            }
-            yield this.userAction("Play another round? ... Deal ");
+            this.checkWinConditions();
+            yield this.userAction("Play another round? ... (d) Deal (e) End Game ");
             this.gameLoop();
         });
     }
@@ -111,13 +91,13 @@ class Table {
             this._playerHand.displayAllCards();
             // check for winner
             if (this._playerHand.checkValueOfCards() == 21) {
-                this.playerEqual21();
-                yield this.userAction("Play another round? ... Deal ");
+                this.checkWinConditions();
+                yield this.userAction("Play another round? ... (d) Deal (e) End Game ");
                 this.gameLoop();
                 return;
             }
             // user input
-            yield this.userAction("hit or stand?");
+            yield this.userAction("(h) Hit or (s) Stand?");
             this.gameLoop();
         });
     }
@@ -131,10 +111,14 @@ class Table {
     // check only dealer score
     // only after player cant do anymore actions
     // if player < 21 lose or push or win
-    playerLessThan21() {
+    checkWinConditions() {
         this.dealerLessThan17();
         const dealerScore = this._dealerHand.checkValueOfCards();
         const playerScore = this._playerHand.checkValueOfCards();
+        if (playerScore == 21) {
+            this.playerEqual21(dealerScore);
+            return;
+        }
         if (dealerScore > 21) {
             this.displayWinner(this._playerHand);
             return;
@@ -155,9 +139,7 @@ class Table {
             this.displayPush();
         }
     }
-    playerEqual21() {
-        const dealerScore = this._dealerHand.checkValueOfCards();
-        this.dealerLessThan17();
+    playerEqual21(dealerScore) {
         if (dealerScore == 21) {
             this.displayPush();
         }
@@ -170,12 +152,10 @@ class Table {
     displayWinner(winner) {
         // end game display cards
         // display winner and score
-        if (winner.name == this._dealerHand.name) {
+        if (winner.name == this._dealerHand.name)
             this._score.lose++;
-        }
-        else {
+        else
             this._score.win++;
-        }
         this._dealerHand.displayAllCards();
         this._playerHand.displayAllCards();
         console.log(winner.name + " Won !!!");

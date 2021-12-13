@@ -33,8 +33,8 @@ class BlackJack {
                 return resolve(ans);
             }));
             console.clear();
-            if (!Number.isInteger(response))
-                this.menu(query);
+            if (!Number.parseInt(response))
+                return this.menu(query);
             return Number.parseInt(response.toLowerCase());
         });
     }

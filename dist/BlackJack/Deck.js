@@ -8,7 +8,7 @@ class Deck {
     constructor(deckCount) {
         this._decks = [];
         this._usedDecks = [];
-        this._plasticCard = 60;
+        this._plasticCard = 20;
         this._numberOfDecks = deckCount;
         for (let i = 0; i < deckCount; i++) {
             this.generateDeck();
@@ -48,18 +48,21 @@ class Deck {
     takeOneCard(cardArr) {
         const card = this._decks.shift();
         if (!card)
-            return; // meme safe guard deck will be shuffle then 60 or less card are left
+            return; // meme safe guard to please typescript gods deck will be shuffle then 60 or less card are left
         this._usedDecks.push(card);
         cardArr.addCard(card);
     }
     generateDeck() {
         const values = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"];
         const suits = ["Diamonds", "Clubs", "Hearts", "Spades"];
-        for (let suit of suits) {
-            for (let value of values) {
-                this._decks.push(new Card_1.default(value, suit));
-            }
-        }
+        suits.map(suit => {
+            values.map(value => { this._decks.push(new Card_1.default(value, suit)); });
+        });
+        // for (let suit of suits) {
+        //   for (let value of values) {
+        //     this._decks.push(new Card(value, suit));
+        //   }
+        // }
     }
 }
 exports.default = Deck;
